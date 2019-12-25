@@ -1,15 +1,14 @@
 package org.rpis5.chapters.chapter_06.websocket;
 
-import java.net.URI;
-import java.time.Duration;
-
-import reactor.core.publisher.Flux;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.reactive.socket.client.ReactorNettyWebSocketClient;
+import reactor.core.publisher.Flux;
+
+import java.net.URI;
+import java.time.Duration;
 
 @SpringBootApplication
 public class WebSocketApplication {
@@ -28,6 +27,7 @@ public class WebSocketApplication {
                     session -> Flux
                             .interval(Duration.ofMillis(100))
                             .map(String::valueOf)
+                            .doOnNext(i -> System.out.println(">>>: " + i))
                             .map(session::textMessage)
                             .as(session::send)
                   )
